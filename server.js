@@ -24,7 +24,7 @@ app.use('/api/tracking', trackingRoutes);
 const io = new Server(server, { cors: { origin: "*", methods: ["GET", "POST"] } });
 initSocketHandler(io); 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`TRACKING SERVICE PORT: ${PORT}`);
 });
