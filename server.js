@@ -8,23 +8,36 @@ const trackingRoutes = require('./src/routes/trackingRoutes');
 const initSocketHandler = require('./src/handlers/socketHandler');
 
 const app = express();
-const server = http.createServer(app);
-
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST"]
+}));
 app.use(express.json());
 
-//Connect to DB
+app.get('/ping', (req, res) => {
+    res.json({ message: "pong", status: "server_alive" });
+});
+
+// API's route
+app.use('/api/tracking', trackingRoutes);
+
+const server = http.createServer(app);
+
+const io = new Server(server, { 
+    cors: { 
+        origin: "*", 
+        methods: ["GET", "POST"],
+        credentials: true
+    },
+    transports: ['websocket', 'polling']
+});
+
 connectMongoDB();
 connectRedis();
 
-//API's route
-app.use('/api/tracking', trackingRoutes);
-
-//Socket.io and hanlde event
-const io = new Server(server, { cors: { origin: "*", methods: ["GET", "POST"] } });
 initSocketHandler(io); 
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log(`TRACKING SERVICE PORT: ${PORT}`);
+    console.log(`TRACKING SERVICE IS RUNNING ON PORT: ${PORT}`);
 });
