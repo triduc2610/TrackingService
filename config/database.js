@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const redis = require('redis');
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://trduc261005_db_user:triduc2610!@trackingservice.ybrjrd8.mongodb.net/?appName=TrackingService';
-const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+const REDIS_URL = process.env.REDIS_URL || "rediss://default:gQAAAAAAAWJ-AAIgcDIyNjlmN2I5ZmY0MDU0MDFhOTk5NGRiYzNmMjMwMGYxMA@evolving-monkfish-90750.upstash.io:6379";
 
 const connectMongoDB = () => {
   mongoose.connect(MONGO_URI)
