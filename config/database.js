@@ -1,8 +1,8 @@
 const redis = require('redis');
 const mongoose = require('mongoose');
 
-const MONGO_URI = 'mongodb://localhost:27017/tracking_db';
-const REDIS_URL ='redis://localhost:6379';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://trduc261005_db_user:triduc2610!@trackingservice.ybrjrd8.mongodb.net/?appName=TrackingService';
+const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 
 //MongoDB
 const connectMongoDB = () => {
