@@ -18,7 +18,7 @@
         initMap();
 
         // Connect to WebSocket
-        const socket = io('http://localhost:3000');
+        const socket = io('https://trackingservice-d6bf.onrender.com');
         socket.on('connect', () => {
             socket.emit('join_order_track', { orderId: orderId, role: 'customer' });
         });
@@ -27,7 +27,7 @@
             const logBox = document.getElementById('customerLog');
             const timeStr = data.timestamp.split('T')[1].slice(0,8);
             
-            logBox.innerHTML += `[${timeStr}] ⚡ Nhận Event [${data.status}]<br>`;
+            logBox.innerHTML += `[${timeStr}]Nhận Event [${data.status}]<br>`;
             logBox.scrollTop = logBox.scrollHeight;
 
             if (data.status === "Đang giao hàng") {
