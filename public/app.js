@@ -93,7 +93,7 @@
 
         //Route history
         function fetchMongoData() {
-            fetch(`http://localhost:3000/api/tracking/history/${orderId}`)
+            fetch(`https://trackingservice-d6bf.onrender.com/api/tracking/history/${orderId}`)
                 .then(res => res.json())
                 .then(data => {
                     alert(`Dữ liệu MongoDB\n\n` +
