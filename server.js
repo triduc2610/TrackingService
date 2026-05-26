@@ -3,11 +3,13 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 
+// Import các cấu hình lõi từ các file bạn đã viết
 const { connectMongoDB, connectRedis } = require('./config/database');
 const trackingRoutes = require('./src/routes/trackingRoutes');
 const initSocketHandler = require('./src/handlers/socketHandler');
 
 const app = express();
+
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -16,10 +18,9 @@ app.use(cors({
 app.use(express.json());
 
 app.get('/ping', (req, res) => {
-    res.json({ message: "pong", status: "server_alive" });
+    return res.json({ message: "pong", status: "server_alive" });
 });
 
-// API's route
 app.use('/api/tracking', trackingRoutes);
 
 const server = http.createServer(app);
@@ -33,12 +34,24 @@ const io = new Server(server, {
     transports: ['websocket', 'polling']
 });
 
-connectMongoDB();
-connectRedis();
-
 initSocketHandler(io); 
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`TRACKING SERVICE IS RUNNING ON PORT: ${PORT}`);
-});
+const PORT = process.env.PORT || 5001; 
+
+const startServer = async () => {
+    try {
+        console.log('[System]: Đang thiết lập kết nối tới các hệ thống cơ sở dữ liệu...');
+        
+        await connectMongoDB();
+        await connectRedis();
+        
+        server.listen(PORT, () => {
+            console.log(`[TRACKING SERVICE LIVE]: SERVER ĐANG CHẠY TẠI CỔNG VÀ MẠNG THỜI GIAN THỰC: ${PORT}`);
+        });
+    } catch (error) {
+        console.error('[System Crash]: Khởi động Tracking Service thất bại:', error.message);
+        process.exit(1); 
+    }
+};
+
+startServer();

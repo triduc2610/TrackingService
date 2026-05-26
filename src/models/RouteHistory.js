@@ -4,7 +4,7 @@ const RouteHistorySchema = new mongoose.Schema({
     orderId: { 
         type: String, 
         required: true,
-        index: true
+        index: true 
     },
     latitude: { 
         type: Number, 
@@ -16,7 +16,12 @@ const RouteHistorySchema = new mongoose.Schema({
     },
     timestamp: { 
         type: Date, 
-        default: Date.now 
+        default: Date.now
     }
+}, {
+    versionKey: false 
 });
+
+RouteHistorySchema.index({ orderId: 1, timestamp: 1 });
+
 module.exports = mongoose.model('RouteHistory', RouteHistorySchema);
