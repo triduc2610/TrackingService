@@ -3,7 +3,6 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 
-// Import các cấu hình lõi từ các file bạn đã viết
 const { connectMongoDB, connectRedis } = require('./config/database');
 const trackingRoutes = require('./src/routes/trackingRoutes');
 const initSocketHandler = require('./src/handlers/socketHandler');
